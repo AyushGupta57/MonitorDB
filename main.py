@@ -15,11 +15,16 @@ while True:
         # Create a BeautifulSoup object with the HTML content and parse it
         soup = BeautifulSoup(html, "html.parser")
 
-        # Find the first link with class "a-link-normal s-underline-text s-underline-link-text s-link-style a-text-normal"
-        a_href = soup.find("a", {"class": "a-link-normal s-underline-text s-underline-link-text s-link-style a-text-normal"}).get('href')
+        # Create an empty list to store href links
+        href_list = list()
 
-        # Print the href attribute of the link
-        print(a_href)
+        # Loop through all links on the page with class "a-link-normal s-underline-text s-underline-link-text s-link-style a-text-normal"
+        for a_href in soup.find_all("a", {"class": "a-link-normal s-underline-text s-underline-link-text s-link-style a-text-normal"}):
+            # Get the href attribute of each link and add it to the href_list
+            href_list.append(a_href.get('href'))
+
+        # Print the list of href links
+        print(href_list)
 
         # Exit the loop
         break
