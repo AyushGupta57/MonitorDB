@@ -56,4 +56,3 @@ def createTable():
 
 createDatabase()
 createTable()
-
