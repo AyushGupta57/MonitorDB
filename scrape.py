@@ -54,3 +54,5 @@ while next_page:
 # Print the scraped monitor names, prices, and links using the pprint library
 for name, price, link in list(zip(monitor_names, monitor_price, monitor_link)):
     pp(f"{name} {price} {link}")
+
+
