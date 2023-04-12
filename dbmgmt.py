@@ -1,9 +1,11 @@
 import psycopg2 as pg
 from psycopg2 import extensions, sql
+from scrape import Scraper
+from pprint import pprint as pp
 
 
 def createDatabase():
-    #Connect to PostgreSQL server
+    # Connect to PostgreSQL server
     conn = pg.connect(user="postgres", password="asdf3232")
     conn.set_isolation_level(extensions.ISOLATION_LEVEL_AUTOCOMMIT)
     # conn.autocommit = True
@@ -42,18 +44,29 @@ def createTable():
             if not cur.fetchone()[0]:
                 # Query to create a new table 'monitor' in schema 'public'
                 queryCreateMonitorTable = '''CREATE TABLE monitor(
-                id SERIAL,
-                name VARCHAR(512),
-                price MONEY,
-                link VARCHAR(512),
-                PRIMARY KEY (id)
-                )
+                                                id SERIAL,
+                                                name VARCHAR(512),
+                                                price MONEY,
+                                                link VARCHAR(512),
+                                                PRIMARY KEY (id)
+                                                )
                 '''
                 cur.execute(queryCreateMonitorTable)
             else:
                 print("Table already exists")
 
+# Function to insert rows for the first time
+
+
+def fillRows():
+    monitorInfoList = Scraper()
+    with pg.connect(database="peripheraldb", user="postgres", password="asdf3232") as conn:
+        # Create a cursor object
+        with conn.cursor() as cur:
+            insertRowTemplate = sql.SQL('''INSERT INTO monitor(name, price, link)
+                                VALUES(%s, %s, %s);''')
+            cur.executemany(insertRowTemplate, monitorInfoList)
 
 createDatabase()
 createTable()
-
+fillRows()
