@@ -55,7 +55,9 @@ def Scraper():
     # print(monitor_price)
 
     # Remove comma from monitor_price_comma list and convert string to float with 2 decimal places
-    monitor_price = ["{:.2f}".format(float(x.replace(",", ""))) for x in monitor_price_raw]
+    monitor_price = [float("{:.2f}".format(float(x.replace(",", "")))) for x in monitor_price_raw]
+    # pp(monitor_price_raw)
+    # pp(monitor_price)
 
     # Change ' to \' in monitor_names_raw list
     monitor_name = [x.replace("'", "\'") for x in monitor_name_raw]
@@ -64,3 +66,4 @@ def Scraper():
     return list(zip(monitor_name, monitor_price, monitor_link))
 
 # pp(Scraper())
+# Scraper()

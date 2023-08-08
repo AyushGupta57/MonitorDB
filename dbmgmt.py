@@ -12,7 +12,7 @@ def createDatabase():
     # Create a cursor object
     cur = conn.cursor()
     # Process to fetch all existing databases
-    queryFetchAllDB = '''SELECT datname FROM pg_database;'''
+    queryFetchAllDB = sql.SQL('''SELECT datname FROM pg_database;''')
     cur.execute(queryFetchAllDB)
     db_list = cur.fetchall()
     # print(db_list)
@@ -32,14 +32,14 @@ def createTable():
         # Create a cursor object
         with conn.cursor() as cur:
             # Process to check if table 'monitor' exists in schema 'public'
-            queryTableExists = '''SELECT EXISTS (
+            queryTableExists = sql.SQL('''SELECT EXISTS (
                                     SELECT FROM 
                                         pg_tables
                                     WHERE 
                                         schemaname = 'public' AND 
                                         tablename  = 'monitor'
                                     );
-                                    '''
+                                    ''')
             cur.execute(queryTableExists)
             if not cur.fetchone()[0]:
                 # Query to create a new table 'monitor' in schema 'public'
