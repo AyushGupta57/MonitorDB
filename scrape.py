@@ -1,4 +1,3 @@
-# Import the necessary libraries
 import requests
 from bs4 import BeautifulSoup
 from pprint import pprint as pp
@@ -18,7 +17,7 @@ def Scraper():
     # Loop through the pages of search results until there are no more pages
     while next_page:
 
-        # Construct the URL for the Amazon search results page for monitors
+        # Construct the URL
         url = "https://www.amazon.in/s?k=monitors&page=" + str(page)
 
         # Send a GET request to the URL
@@ -26,7 +25,6 @@ def Scraper():
 
         # Check if the request was successful
         if request.status_code == 200:
-            # Parse the HTML content of the page using BeautifulSoup
             html = request.content
             soup = BeautifulSoup(html, "html.parser")
 
@@ -50,14 +48,10 @@ def Scraper():
             else:
                 page = page + 1
 
-    # print(monitor_hrefs)
-    # print(monitor_names)
-    # print(monitor_price)
 
     # Remove comma from monitor_price_comma list and convert string to float with 2 decimal places
     monitor_price = [float("{:.2f}".format(float(x.replace(",", "")))) for x in monitor_price_raw]
-    # pp(monitor_price_raw)
-    # pp(monitor_price)
+
 
     # Change ' to \' in monitor_names_raw list
     monitor_name = [x.replace("'", "\'") for x in monitor_name_raw]
@@ -65,5 +59,3 @@ def Scraper():
     # Print the scraped monitor names, prices, and links using the pprint library
     return list(zip(monitor_name, monitor_price, monitor_link))
 
-# pp(Scraper())
-# Scraper()
